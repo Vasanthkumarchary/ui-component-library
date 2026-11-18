@@ -1,0 +1,29 @@
+UI Component Library - Viewer and Catalog License
+
+Copyright (c) 2026 Vasanthkumarchary (github.com/Vasanthkumarchary).
+All rights reserved.
+
+SCOPE. This license covers only the viewer (library/index.html) and the
+selection and arrangement of the catalog (data/library.json). It does NOT
+cover the UI components themselves, which belong to their authors and are
+licensed under the MIT License (see THIRD_PARTY_NOTICES.md). Nothing in this
+file limits the rights that license gives you.
+
+For the viewer and catalog, permission is granted to anyone to view and copy
+them (clone or download) for personal, non-commercial reference. As required
+by GitHub's Terms of Service, GitHub users may also view and fork this
+repository on GitHub.
+
+Without prior written permission from the copyright holder, you may NOT:
+
+  1. Modify or create derivative works of the viewer or catalog.
+  2. Redistribute or host the viewer or catalog outside GitHub.
+  3. Use the viewer or catalog for commercial purposes.
+  4. Submit contributions (code, issues, pull requests, or content) to this
+     repository. Contributions are not accepted.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT
+OF, OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.

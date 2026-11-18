@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UI Component Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: library app. Top bar (search, theme, saved) -> group index -> group page grid -> detail drawer. Neutral greys + one electric-blue accent. */
+:root{--bg:#F4F4F5;--panel:#FFFFFF;--panel2:#EDEDEF;--fg:#18181B;--muted:#62626B;--line:#DCDCE0;--accent:#2F5BFF;--accent-fg:#FFFFFF;--star:#E8A21B;
+  --display:"Archivo",system-ui,sans-serif;--body:"Inter Tight",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}
+[data-theme="dark"]{--bg:#0F0F11;--panel:#18181B;--panel2:#202024;--fg:#F1F1F3;--muted:#A0A0AA;--line:#2C2C31;--accent:#7C9BFF;--accent-fg:#0F0F11;--star:#FFC24D;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.5 var(--body)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.hb{max-width:1440px;margin:0 auto;padding:12px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand{font:900 20px var(--display);font-stretch:118%;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}
+.brand span{font:500 12px var(--mono);letter-spacing:.08em;color:var(--muted);margin-left:8px;font-stretch:100%}
+#q{flex:1;min-width:200px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--fg);font:400 15px var(--body);padding:0 14px}
+.tb{height:40px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:0 12px;cursor:pointer;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.tb.on{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+main{max-width:1440px;margin:0 auto;padding:22px 20px 80px}
+h1{font:800 clamp(32px,4.5vw,56px)/1 var(--display);font-stretch:112%;letter-spacing:-.03em;margin:4px 0 8px}
+.sub{color:var(--muted);margin:0 0 20px;max-width:80ch}
+.crumb{font:500 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.crumb a{text-decoration:none}
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.gt{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .2s,border-color .2s}
+.gt:hover{transform:translateY(-3px);border-color:var(--accent)}
+.gt .th{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;height:120px;background:var(--panel2)}
+.gt .th i{background:var(--panel2) center/cover}
+.gt .gb{padding:12px 14px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.gt b{font:700 17px var(--display);font-stretch:105%}
+.gt span{font:500 12px var(--mono);color:var(--muted)}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.chip{border:1px solid var(--line);border-radius:99px;padding:5px 11px;font:500 12px var(--body);background:var(--panel);color:var(--muted);cursor:pointer}
+.chip.on{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.chip small{font:500 11px var(--mono);margin-left:4px}
+.flabel{font:500 11px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;align-self:center;margin-right:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;min-width:0;transition:border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--accent)}
+.card.saved{border-color:var(--star);box-shadow:0 0 0 1.5px var(--star)}
+.pv{position:relative;aspect-ratio:4/3;background:var(--panel2);overflow:hidden}
+.pv img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.pv .hl{position:absolute;left:0;top:0;width:1280px;height:960px;border:0;transform-origin:0 0;pointer-events:none;background:#fff}
+.pv iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.pv .ph{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font:500 12px var(--mono);text-align:center;padding:10px}
+.pv .live{position:absolute;left:8px;top:8px;background:var(--accent);color:var(--accent-fg);font:600 10px var(--mono);border-radius:99px;padding:2px 8px;z-index:2}
+.cb{padding:10px 12px 12px;display:grid;gap:4px}
+.row{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.id{font:500 11px var(--mono);color:var(--muted)}
+.code{font:600 10px var(--mono);border:1px solid var(--line);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.card h3{margin:0;font:600 14px/1.3 var(--body);overflow-wrap:anywhere}
+.src{font-size:12px;color:var(--muted)}
+.more{display:block;margin:18px auto 0}
+.empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}
+/* detail drawer */
+#dt[hidden]{display:none}
+#dt{position:fixed;inset:0;z-index:50;background:#000a;padding:14px}
+#dt .scrim{display:none}
+#dt .pane{height:100%;background:var(--panel);border-radius:16px;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) 380px}
+#dt .stagewrap{position:relative;background:var(--panel2);min-height:0;display:flex;flex-direction:column}
+#dt .stagebar{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);font:500 12px var(--mono);color:var(--muted)}
+#dt .stagebar .dots{display:flex;gap:5px}#dt .stagebar .dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+#dt .stage{flex:1;min-height:0;position:relative}
+#dt .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+#dt .stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#dt .info{overflow:auto;padding:18px 18px 40px;display:grid;gap:14px;align-content:start;border-left:1px solid var(--line)}
+@media (max-width:900px){#dt .pane{grid-template-columns:1fr;grid-template-rows:60vh auto;overflow:auto}#dt .info{border-left:0}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+pre{margin:0;max-height:340px;overflow:auto;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;font:500 12px/1.5 var(--mono);white-space:pre-wrap;word-break:break-word}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:4px 12px;font-size:13px}.kv span:nth-child(odd){color:var(--muted)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select{height:40px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--fg);font:500 14px var(--body);padding:0 10px}
+.btn{display:inline-flex;align-items:center;height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);font-weight:600;font-size:14px;text-decoration:none;cursor:pointer}
+.btn.pri{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.star{color:var(--star)}
+.note{font-size:12px;color:var(--muted)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="hb">
+  <a class="brand" href="#/">UI COMPONENT<span>LIBRARY</span></a>
+  <input id="q" type="search" placeholder="Search all components: marquee, product card, glow, size, footer, HERO-1A2B3…" aria-label="Search">
+  <button class="tb" id="savedBtn" type="button">★ Saved <span id="sc">0</span></button>
+  <button class="tb" id="theme" type="button" aria-label="Switch light or dark mode">◐ Dark</button>
+</div></header>
+<main id="app"><p class="sub">Loading library…</p></main>
+<div id="dt" hidden><div class="scrim"></div><div class="pane" id="pane"></div></div>
+
+<script>
+const TARGETS=['Not sure yet','Announcement bar','Navigation','Hero','Category display','Curated groups','Product card','Product page','Reviews','Cart','Footer','Background / texture','Buttons','Loaders','Colour palette','Typography','Animation','Logo / brand'];
+const GROUP_ORDER=['Hero banners','Navigation & menus','Product cards & grids','Product page & galleries','Cart, checkout & forms','Buttons & calls to action','Reviews & social proof','Announcements & pop-ups','Footers','Text & headline effects','Backgrounds & textures','Scroll, hover & motion','3D showpieces','Loaders & progress','Store page templates','Brand & design systems','Colour & graphic tools','Packaging & mockups','Design tools','App & UX references','Data & charts','Other'];
+const esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+let ALL=[],BYID={},saves={},meta={};
+
+// ---- theme ----
+const setTheme=t=>{document.documentElement.dataset.theme=t;theme.textContent=t==='dark'?'◑ Light':'◐ Dark';try{localStorage.setItem('lib-theme',t)}catch(e){}};
+theme.onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+try{setTheme(localStorage.getItem('lib-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'))}catch(e){setTheme('light')}
+
+// ---- metadata (thumbnail, code) fetched through the local server, 4 at a time ----
+const queue=[];let active=0;
+function getMeta(x){if(meta[x.id])return meta[x.id];meta[x.id]=new Promise(res=>{queue.push({x,res});pump()});return meta[x.id]}
+function pump(){while(active<4&&queue.length){const {x,res}=queue.shift();active++;fetch('/data/library-cache/'+encodeURIComponent(x.id)+'.json').then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>({error:'offline'})).then(m=>{res(m);active--;pump()})}}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const x=BYID[e.target.dataset.id];getMeta(x).then(m=>paintThumb(e.target,x,m))}),{rootMargin:'300px'});
+function paintThumb(card,x,m){const pv=card.querySelector('.pv');if(m.image)pv.innerHTML=`<img src="${esc(m.image)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',textContent:'No preview image'}))">`;else if(m.html)pv.innerHTML=liveFrame(m,'card');else pv.innerHTML=`<div class="ph">${m.error?'Could not download this item':m.live?'Hover to play':'No preview'}</div>`;if(m.html||m.live)pv.insertAdjacentHTML('afterbegin','<span class="live">LIVE ON HOVER</span>')}
+// previews only ever load from files in this repository; component code runs in a sandboxed frame
+const HOVER_LIVE=m=>!!(m.html||m.live);
+function srcdoc(m){return `<!doctype html><html><head><meta charset="utf-8">${m.tailwind?'<script src="${location.origin}/library/vendor/tailwind.js"><\/script>':''}<style>html,body{height:100%;margin:0}body{display:grid;place-items:center;background:#fff;font-family:system-ui}${m.css||''}</style></head><body>${m.html}</body></html>`}
+function liveFrame(m,where){return `<iframe title="Live preview" sandbox="allow-scripts" srcdoc="${esc(srcdoc(m))}" ${where==='card'?'style="pointer-events:none"':''}></iframe>`}
+
+// ---- routes ----
+addEventListener('hashchange',route);
+let qTimer;q.addEventListener('input',()=>{clearTimeout(qTimer);qTimer=setTimeout(()=>{location.hash=q.value.trim()?'#/search/'+encodeURIComponent(q.value.trim()):'#/'},250)});
+savedBtn.onclick=()=>location.hash='#/saved';
+function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [,a,b]=h.split('/');
+  if(a==='g'){const g=GROUP_ORDER.find(x=>slug(x)===b)||b;return groupPage(g,ALL.filter(x=>x.group===g),`<a href="#/">Library</a> / ${esc(g)}`)}
+  if(a==='search'){const ws=b.toLowerCase().split(/\s+/);return groupPage(`Search: ${b}`,ALL.filter(x=>ws.every(w=>(x._s||(x._s=`${x.id} ${x.name} ${x.tag} ${x.source} ${x.group} ${x.code} ${x.author||''}`.toLowerCase())).includes(w))),`<a href="#/">Library</a> / search`)}
+  if(a==='saved')return groupPage('Saved',ALL.filter(x=>saves[x.id]),`<a href="#/">Library</a> / saved`);
+  home();}
+function home(){const cnt=new Map();ALL.forEach(x=>cnt.set(x.group,(cnt.get(x.group)||0)+1));
+  app.innerHTML=`<span class="crumb">Library</span><h1>Every component, grouped by what it does</h1><p class="sub">${ALL.length.toLocaleString('en-IN')} components. Open a group, hover a card to preview it, click for the full view and code. Every component has an ID, like <b>BTN-1A2B3</b>, to find it again.</p><div class="groups">${GROUP_ORDER.filter(g=>cnt.get(g)).map(g=>{const s=ALL.filter(x=>x.group===g).slice(0,3);return `<a class="gt" href="#/g/${slug(g)}"><div class="th">${s.map(x=>`<i data-tid="${x.id}"></i>`).join('')}</div><div class="gb"><b>${esc(g)}</b><span>${cnt.get(g).toLocaleString('en-IN')}</span></div></a>`}).join('')}</div>`;
+  app.querySelectorAll('[data-tid]').forEach(el=>{const x=BYID[el.dataset.tid];getMeta(x).then(m=>{if(m.image)el.style.backgroundImage=`url("${m.image}")`})});}
+let cur=[],shown=0,fSrc='All',fCode='All';
+function groupPage(title,items,crumb){fSrc='All';fCode='All';cur=items;
+  app.innerHTML=`<span class="crumb">${crumb}</span><h1>${esc(title)}</h1><p class="sub">${items.length.toLocaleString('en-IN')} items. Hover a card for a preview (cards marked LIVE run the real code), click for full size, code and save.</p><div class="filters" id="fs"></div><div class="filters" id="fc"></div><div class="grid" id="grid"></div><button class="btn more" id="more" type="button" hidden>Show more</button>`;
+  more.onclick=page;drawFilters();apply();}
+function drawFilters(){const c=(k,arr)=>{const m=new Map();arr.forEach(x=>m.set(x[k],(m.get(x[k])||0)+1));return [...m].sort((a,b)=>b[1]-a[1])};
+  fs.innerHTML=`<span class="flabel">Source</span>`+[['All',cur.length],...c('source',cur)].map(([s,n])=>`<button class="chip ${s===fSrc?'on':''}" data-fs="${esc(s)}" type="button">${esc(s)}<small>${n}</small></button>`).join('');
+  fc.innerHTML=`<span class="flabel">Code</span>`+[['All',cur.length],...c('code',cur)].map(([s,n])=>`<button class="chip ${s===fCode?'on':''}" data-fc="${esc(s)}" type="button">${esc(s)}<small>${n}</small></button>`).join('');
+  fs.onclick=e=>{const b=e.target.closest('[data-fs]');if(b){fSrc=b.dataset.fs;drawFilters();apply()}};fc.onclick=e=>{const b=e.target.closest('[data-fc]');if(b){fCode=b.dataset.fc;drawFilters();apply()}};}
+let view=[];
+function apply(){view=cur.filter(x=>(fSrc==='All'||x.source===fSrc)&&(fCode==='All'||x.code===fCode));shown=0;grid.innerHTML=view.length?'':'<div class="empty">Nothing here yet.</div>';page()}
+function card(x){return `<article class="card ${saves[x.id]?'saved':''}" data-id="${x.id}" tabindex="0"><div class="pv"><div class="ph">Loading preview…</div></div><div class="cb"><div class="row"><span class="id">${x.id}</span><span class="code">${esc(x.code)}</span></div><h3>${esc(x.name)}</h3><span class="src">${esc(x.source)}${x.author?' · '+esc(x.author):''}</span></div></article>`}
+function page(){const next=view.slice(shown,shown+96);grid.insertAdjacentHTML('beforeend',next.map(card).join(''));shown+=next.length;more.hidden=shown>=view.length;more.textContent=`Show more (${(view.length-shown).toLocaleString('en-IN')} left)`;grid.querySelectorAll('.card:not([data-o])').forEach(c=>{c.dataset.o=1;io.observe(c)})}
+// hover: live code runs inside the card; click/enter opens the detail drawer
+let hoverT;
+app.addEventListener('pointerover',e=>{const c=e.target.closest('.card');if(!c||c.dataset.hov)return;const x=BYID[c.dataset.id];c.dataset.hov=1;clearTimeout(hoverT);
+  hoverT=setTimeout(()=>getMeta(x).then(m=>{if(!c.dataset.hov||!HOVER_LIVE(m))return;const pv=c.querySelector('.pv');c._rest=pv.innerHTML;
+    if(m.html)pv.innerHTML='<span class="live">LIVE</span>'+liveFrame(m,'card');
+    else{const f=document.createElement('iframe');f.className='hl';f.src=m.live;f.setAttribute('sandbox','allow-scripts allow-same-origin');f.style.transform=`scale(${pv.clientWidth/1280})`;pv.append(f)}}),350)});
+app.addEventListener('pointerout',e=>{const c=e.target.closest('.card');if(!c||c.contains(e.relatedTarget))return;clearTimeout(hoverT);delete c.dataset.hov;if(c._rest!==undefined){c.querySelector('.pv').innerHTML=c._rest;delete c._rest}});
+app.addEventListener('click',e=>{const c=e.target.closest('.card');if(c)openDetail(BYID[c.dataset.id])});
+app.addEventListener('keydown',e=>{const c=e.target.closest('.card');if(c&&e.key==='Enter')openDetail(BYID[c.dataset.id])});
+
+// ---- detail drawer ----
+let openTok=0;
+async function openDetail(x){const tok=++openTok;dt.hidden=false;pane.innerHTML='<p class="sub">Loading…</p>';const m=await getMeta(x);if(tok!==openTok)return;const s=saves[x.id];
+  const tabs=[];if(m.html){tabs.push(['HTML',m.html]);tabs.push([m.tailwind?'Tailwind classes':'CSS',m.tailwind?'Uses Tailwind utility classes inside the HTML above.':(m.css||'')])}
+  if(m.tsx_demo)tabs.push(['React usage (TSX)',m.tsx_demo]);
+  const live=m.live;
+  pane.innerHTML=`<div class="stagewrap"><div class="stagebar"><span class="dots"><i></i><i></i><i></i></span><span>${m.html?'Running the real HTML + CSS':live?'Running the demo file':'Preview image'}</span></div><div class="stage">${m.html?liveFrame(m,'detail'):live?`<iframe title="Live demo of ${esc(x.name)}" src="${esc(live)}" sandbox="allow-scripts allow-same-origin allow-forms" allow="fullscreen; autoplay"></iframe>`:m.image?`<img src="${esc(m.image)}" alt="">`:'<div class="ph">No preview for this item.</div>'}</div></div><div class="info"><div class="row"><span class="id">${x.id} · ${esc(x.group)}</span><button class="btn" id="dtClose" type="button">Close</button></div><h2 style="margin:0;font:800 26px/1.1 var(--display)">${esc(x.name)}</h2>
+  ${m.desc?`<p style="margin:0">${esc(m.desc)}</p>`:''}
+  <div class="kv"><span>Source</span><span>${esc(x.source)}${x.author?' · '+esc(x.author):''}</span><span>Code type</span><span>${esc(m.html?(m.tailwind?'HTML + Tailwind':'HTML + CSS'):x.code)}</span>${m.tags?`<span>Tags</span><span>${esc(m.tags)}</span>`:''}${m.deps?`<span>Packages</span><span>${esc(m.deps)}</span>`:''}${m.license?`<span>Licence</span><span>${esc(m.license)}</span>`:''}</div>
+  ${tabs.length?`<div class="tabs">${tabs.map((t,i)=>`<button class="chip ${i?'':'on'}" data-t="${i}" type="button">${t[0]}</button>`).join('')}</div><pre id="dtCode">${esc(tabs[0][1])}</pre>`:'<p class="note">Full source for this item is not held here.</p>'}
+  <div class="acts"><button class="btn star" id="dtSave" type="button">${s?'★ Saved':'☆ Save'}</button><select id="for" aria-label="Use it for">${TARGETS.map(t=>`<option ${s&&s.for===t?'selected':''}>${t}</option>`).join('')}</select></div>
+  <p class="note">Saved picks are kept in this browser only.</p></div>`;
+  dtClose.onclick=()=>dt.hidden=true;
+  pane.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{pane.querySelectorAll('[data-t]').forEach(z=>z.classList.toggle('on',z===b));dtCode.textContent=tabs[b.dataset.t][1]});
+  dtSave.onclick=()=>{if(saves[x.id])delete saves[x.id];else saves[x.id]={for:document.getElementById('for').value,name:x.name,source:x.source,group:x.group,at:new Date().toISOString()};dtSave.textContent=saves[x.id]?'★ Saved':'☆ Save';persist();document.querySelectorAll(`.card[data-id="${x.id}"]`).forEach(c=>c.classList.toggle('saved',!!saves[x.id]))};
+  document.getElementById('for').onchange=e=>{if(saves[x.id]){saves[x.id].for=e.target.value;persist()}};}
+dt.querySelector('.scrim').onclick=()=>dt.hidden=true;
+addEventListener('keydown',e=>{if(e.key==='Escape')dt.hidden=true});
+function persist(){sc.textContent=Object.keys(saves).length;try{localStorage.setItem('lib-saves',JSON.stringify(saves))}catch(e){}}
+
+Promise.all([fetch('/data/library.json').then(r=>r.json()),Promise.resolve().then(()=>JSON.parse(localStorage.getItem('lib-saves')||'{}')).catch(()=>({}))]).then(([d,s])=>{ALL=d.items;ALL.forEach(x=>BYID[x.id]=x);saves=s||{};sc.textContent=Object.keys(saves).length;route()}).catch(()=>{app.innerHTML='<p class="sub">Could not load data/library.json. Serve this folder with: python -m http.server 8000, then open http://localhost:8000/library/</p>'});
+</script>
+</body>
+</html>
